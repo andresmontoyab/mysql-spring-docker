@@ -1,36 +1,33 @@
-docker run --name mysql -e MYSQL_ALLOW_EMPTY_PASSWORD=yes -v /Users/jt/tmp:/var/lib/mysql -p 3306:3306 -d mysql
+# Steps
+
+1. Create image with docer file.
+2. Startup a container with the previous image.
+3. Stop and delete previous container
+4. Create volume image 
+
+`docker create -v /var/lib/mysql --name mysqldata with-data`
+
+5. Run container with volume
+docker run --name [container-name] -e MYSQL_ALLOW_EMPTY_PASSWORD=yes --volumes-from mysqldata -p 3306:3306 -d [image-name]
+
+# Pending Steps
+
+1. Create DockerFile for Java app -> https://github.com/andresmontoyab/Devops/blob/master/Docker/FixingDockerFile/Dockerfile
+
+to build .jar just run mvn build or mvn package
+2. Start up both java container and mysql (Check that works)
+3. Create docker compose with both
+
+- 
+
+1. Continue reading about volumes 
+
+## Other
+
+Get into container 
+winpty docker exec -it [Container-name] bash
 
 
-docker run --name mysql -e MYSQL_ALLOW_EMPTY_PASSWORD=yes -p 3306:3306 -d mysql
-docker run --name mysql -e MYSQL_ALLOW_EMPTY_PASSWORD=yes - myvol -p 3306:3306 -d mysql
-
-docker run --name mysql -e MYSQL_ALLOW_EMPTY_PASSWORD=yes -v myvol:/app -p 3306:3306 -d mysql
-
-### 
-docker run --name mysql -e MYSQL_ALLOW_EMPTY_PASSWORD=yes -v myvol:/app -p 3306:3306 -d mysql
 
 
-## Get into 
 
-winpty docker exec -it mysql bash
-
-## Create Schema
-
-CREATE DATABASE person;
-USE person;
-CREATE TABLE person 
-( 
-	id smallint unsigned not null auto_increment, 
-	name varchar(20) not null, 
-	last_name varchar(20) not null, 
-	primary key (id) );
-
-INSERT INTO person ( id, name, last_name) VALUES ( 10001, 'Manual Sample One', 'Manual Sample One' );
-INSERT INTO person ( id, name, last_name) VALUES ( 10002, 'Manual Sample two', 'Manual Sample One' );
-
-
-docker run --name mysql-schema -e MYSQL_ALLOW_EMPTY_PASSWORD=yes -v myvol:/app -p 3306:3306 -d mysql-with-schema-person 
-docker run --name mysql-schema-yy -e MYSQL_ALLOW_EMPTY_PASSWORD=yes -v myvol:/app -p 3306:3306 -d mysql-with-schema-person 
-
-
-docker run --name schema-yy -v myvol:/app -p 3306:3306 -d mysql-with-schema-person
